@@ -1,5 +1,5 @@
 {
-  "asOf": "2026-10-20T21:29:46.987Z",
+  "asOf": "2026-10-21T00:06:19.872Z",
   "source": "Yahoo Finance 1-minute bars, refreshed on the published site by tools/refresh-snapshot.mjs",
   "symbols": [
     {
@@ -79,7 +79,7 @@
         339.7300109863281,
         339.5
       ],
-      "marketState": "POST"
+      "marketState": "CLOSED"
     },
     {
       "sym": "NVDA",
@@ -158,7 +158,7 @@
         216.47999572753906,
         216.47000122070312
       ],
-      "marketState": "POST"
+      "marketState": "CLOSED"
     },
     {
       "sym": "MSFT",
@@ -237,7 +237,7 @@
         532.1300048828125,
         531.8699951171875
       ],
-      "marketState": "POST"
+      "marketState": "CLOSED"
     },
     {
       "sym": "TSLA",
@@ -313,11 +313,11 @@
         373.364990234375,
         373.625,
         373.7099914550781,
-        373.7749938964844,
+        373.7300109863281,
         373.7099914550781
       ],
-      "marketState": "POST"
+      "marketState": "CLOSED"
     }
   ],
-  "marketState": "POST"
+  "marketState": "CLOSED"
 }
