@@ -1,0 +1,20 @@
+map-regression.cjs
+PASS 324 map viewport/aspect/zoom/pan combinations from phone to 100000px; cover bounds and minimum pinch scale preserved.
+
+rain-regression.cjs
+PASS: pinned bead stays fixed; drops descend at independent speeds; collision merges mass; radius stays bounded; scenery sampling is time-independent.
+
+renderer-stress-regression.cjs
+PASS nine viewport/DPR extremes; GPU <=4MP/4096 edge; simulation <=2MP/2048 edge; 10000 enable changes; hidden cleanup and injected graphics failure fallback.
+
+scene-regression.cjs
+PASS: 24 daily scenes, 8 festivals / 24 matching paintings, 96 lighting choices, mood boundaries, daily cycle, festive priority, manual lock, weather fallback and stale-response protection.
+
+scene-render-regression.cjs
+PASS: all 32 scenes / 96 moods draw without exceptions; one animation loop; pause and hidden-tab cleanup.
+
+stress-regression.cjs
+PASS 69120 unique policy combinations; 100 corrupt preference combinations; 10000 alternating scene/mood actions; stale and malformed weather responses.
+
+transition-regression.cjs
+PASS: 10000 alternating transitions bounded; forming/shattering draws, completes and cleans up; rapid switches cancel; reduced motion skips effects; hidden tabs cancel.

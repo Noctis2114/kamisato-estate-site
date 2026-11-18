@@ -434,7 +434,7 @@ globalThis.EstateRaindrops=Raindrops;
   let enabled=true,ready=false,raf=0,last=0,simulation=null,variation=0;
   function applyVariation(){if(simulation){simulation.options.rainChance=[.22,.33,.65][variation];simulation.options.rainLimit=[1,2,3][variation];simulation.options.globalTimeScale=[.6,.72,1][variation];}}
   window.rainGlass={setVariation(value){variation=value;applyVariation();},setEnabled(value){enabled=!!value;sync();},get enabled(){return enabled;}};
-  function fail(message){ready=false;document.body.dataset.rainError=message;document.body.dataset.liveRain='unavailable';sync();}
+  function fail(message){ready=false;canvas.style.opacity='0';document.body.dataset.rainError=message;document.body.dataset.liveRain='unavailable';sync();}
   if(!gl){fail('WebGL unavailable');return;}
   const vertex='attribute vec2 position;varying vec2 uv;void main(){uv=position*.5+.5;gl_Position=vec4(position,0.,1.);}';
   const fragment=`precision highp float;
@@ -468,10 +468,13 @@ globalThis.EstateRaindrops=Raindrops;
   const load=src=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(Error('Rain asset failed: '+src));image.src=asset(src);});
   let photo,alpha,color;
   function resize(){
-    const w=innerWidth,h=innerHeight,dpr=Math.min(devicePixelRatio||1,1.5);
-    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);gl.viewport(0,0,canvas.width,canvas.height);gl.uniform2f(resolution,w,h);
+    const viewportW=Math.max(1,innerWidth),viewportH=Math.max(1,innerHeight);
+    const dpr=Math.min(devicePixelRatio||1,1.5,4096/viewportW,4096/viewportH,Math.sqrt(4194304/(viewportW*viewportH)));
+    const simScale=Math.min(1,2048/viewportW,2048/viewportH,Math.sqrt(2097152/(viewportW*viewportH)));
+    const w=Math.max(1,Math.floor(viewportW*simScale)),h=Math.max(1,Math.floor(viewportH*simScale));
+    canvas.width=Math.max(1,Math.floor(viewportW*dpr));canvas.height=Math.max(1,Math.floor(viewportH*dpr));gl.viewport(0,0,canvas.width,canvas.height);gl.uniform2f(resolution,w,h);
     if(!ready)return;
-    const backdrop=document.createElement('canvas');backdrop.width=Math.min(1920,w*1.25);backdrop.height=Math.round(backdrop.width*h/w);
+    const backdrop=document.createElement('canvas');backdrop.width=w;backdrop.height=h;
     const ctx=backdrop.getContext('2d'),bw=backdrop.width,bh=backdrop.height,scale=Math.max(bw/photo.width,bh/photo.height)*1.1;
     // These two textures are built only on resize. They never change during rain.
     for(let unit=0;unit<2;unit++){ctx.clearRect(0,0,bw,bh);ctx.filter='blur('+(unit===0?24:8)+'px) saturate(.43) brightness(.84)';ctx.drawImage(photo,(bw-photo.width*scale)/2,(bh-photo.height*scale)*.36,photo.width*scale,photo.height*scale);upload(unit,backdrop);}
@@ -481,10 +484,10 @@ globalThis.EstateRaindrops=Raindrops;
     applyVariation();simulation.update(0);render();
   }
   function render(){if(!ready||!simulation)return;upload(2,simulation.canvas);gl.drawArrays(gl.TRIANGLES,0,6);}
-  function frame(now){raf=0;if(!ready||!enabled||document.hidden)return;if(now-last>=1000/30){const dt=last?Math.min((now-last)/1000,.05):1/30;last=now;simulation.update(dt*60);render();}raf=requestAnimationFrame(frame);}
+  function frame(now){raf=0;if(!ready||!enabled||document.hidden)return;if(now-last>=1000/30){const dt=last?Math.min((now-last)/1000,.05):1/30;last=now;try{simulation.update(dt*60);render();}catch(e){fail(e.message);return;}}raf=requestAnimationFrame(frame);}
   function sync(){if(raf)cancelAnimationFrame(raf);raf=0;last=0;if(ready&&enabled&&!document.hidden)raf=requestAnimationFrame(frame);}
   Promise.all([load('../rain-window.jpg'),load('drop-alpha.png'),load('drop-color.png')]).then(images=>{[photo,alpha,color]=images;ready=true;resize();document.body.dataset.liveRain='ready';delete document.body.dataset.rainError;sync();}).catch(e=>fail(e.message));
-  let resizeTimer;addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resize,120);});document.addEventListener('visibilitychange',sync);
+  let resizeTimer;addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{try{resize();}catch(e){fail(e.message);}},120);});document.addEventListener('visibilitychange',sync);
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();fail('Graphics context lost');});resize();
 })();
 
@@ -534,11 +537,11 @@ globalThis.EstateRaindrops=Raindrops;
  }
  const seasonalPools={spring:['blossom','wisteria','torii','meadow','rain','waterfall','lavender','dawn','forest'],summer:['lotus','ocean','lavender','desert','fireflies','meadow','lake','sunset'],autumn:['spiderlily','torii','autumn','rain','forest','city','volcano','dawn','lake'],winter:['snow','aurora','startrails','night','clouds','rain','city']};
  // UTC arithmetic on local calendar fields avoids DST shortening a rotation day.
- function dailyScene(date=new Date(),season){const pool=seasonalPools[season]||baseOrder;const day=Math.floor(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())/86400000);return pool[((day%pool.length)+pool.length)%pool.length];}
+ function dailyScene(date=new Date(),season){const pool=Object.hasOwn(seasonalPools,season)?seasonalPools[season]:baseOrder;const day=Math.floor(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate())/86400000);return pool[((day%pool.length)+pool.length)%pool.length];}
  function resolve(behaviour,fixed,hour,weather,options={}){
-  if(options.matchFestivals&&festivals[options.festival])return 'festive-'+options.festival;
+  if(options.matchFestivals&&Object.hasOwn(festivals,options.festival))return 'festive-'+options.festival;
   if(behaviour==='daily')return dailyScene(options.date,options.seasonal?options.season:null);
-  if(behaviour==='fixed')return scenes[fixed]?fixed:'rain';
+  if(behaviour==='fixed')return Object.hasOwn(scenes,fixed)?fixed:'rain';
   return behaviour==='weather'&&weather?weatherScene(weather,hour):byHour(hour);
  }
  globalThis.EstateScenePolicy={scenes:ordered,baseOrder,festivals,moodAt,byHour,weatherScene,dailyScene,resolve};
@@ -560,7 +563,7 @@ Object.values(EstateScenePolicy.scenes).forEach(d=>{d.image=asset(d.image);if(d.
   }
   function glow(x,y,r,color,alpha){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,'rgba('+color+','+alpha+')');g.addColorStop(.2,'rgba('+color+','+alpha*.4+')');g.addColorStop(1,'rgba('+color+',0)');ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);}
   const stars=Array.from({length:230},()=>({radius:Math.random(),angle:Math.random()*Math.PI*2,bright:.2+Math.random()*.5,width:.45+Math.random()*.9}));
-  function resize(){w=innerWidth;h=innerHeight;const dpr=Math.min(devicePixelRatio||1,1.5);canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw(0);}
+  function resize(){w=innerWidth;h=innerHeight;const dpr=Math.min(devicePixelRatio||1,1.5,4096/Math.max(1,w),4096/Math.max(1,h),Math.sqrt(4194304/Math.max(1,w*h)));canvas.width=Math.max(1,Math.floor(w*dpr));canvas.height=Math.max(1,Math.floor(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);draw(0);}
   function draw(dt){ctx.clearRect(0,0,w,h);clock+=dt*.85;const effect=EstateScenePolicy.scenes[active]?.effect||active;
     if(effect==='snow'){
       for(const f of flakes.slice(0,[90,120,150][variation])){f.y=(f.y+dt*(.014+f.z*.04))%1;f.x=(f.x+dt*(.005+f.z*.008)+1)%1;const x=f.x*w+Math.sin(clock*.4+f.phase)*19,y=f.y*(h+20)-10,r=.7+f.z*2.3;
@@ -626,13 +629,13 @@ Object.values(EstateScenePolicy.scenes).forEach(d=>{d.image=asset(d.image);if(d.
  const $=id=>document.getElementById(id),P=EstateScenePolicy;
  window.createSceneControls=({read,write,onScene})=>{
   let behaviour=read('scene_behaviour','fixed');if(behaviour==='time')behaviour='daily';if(!['fixed','daily','weather'].includes(behaviour))behaviour='fixed';
-  let fixed=read('workspace_scene','rain');if(!P.scenes[fixed])fixed='rain';
+  let fixed=read('workspace_scene','rain');if(!Object.hasOwn(P.scenes,fixed))fixed='rain';
   let mood=read('scene_mood','auto');if(!['auto','0','1','2'].includes(mood))mood='auto';
   let matchFestivals=read('match_festivals','yes')!=='no',seasonal=read('match_season','no')==='yes',category='all';
   let observedDoc=null,estateObserver=null;
   function estateTheme(){
    const doc=pageDocument;let stored={};
-   try{stored=JSON.parse(localStorage.getItem('ayaka_estate_seasons')||'{}');if(localStorage.getItem('ayaka_festivals')==='off')return {festival:'none',season:doc?.documentElement.dataset.season||stored.season};}catch{}
+   try{const parsed=JSON.parse(localStorage.getItem('ayaka_estate_seasons')||'{}');if(parsed&&typeof parsed==='object'&&!Array.isArray(parsed))stored=parsed;if(localStorage.getItem('ayaka_festivals')==='off')return {festival:'none',season:doc?.documentElement.dataset.season||stored.season};}catch{}
    // The original Estate owns calendar/hemisphere resolution; use its resolved state.
    return {festival:doc?.documentElement.dataset.festival||stored.festival||'none',season:doc?.documentElement.dataset.season||stored.season};
   }
@@ -701,8 +704,8 @@ Object.values(EstateScenePolicy.scenes).forEach(d=>{d.image=asset(d.image);if(d.
       if(matchMedia('(prefers-reduced-motion: reduce)').matches||!rects.length)return;
       const canvas=document.createElement('canvas');canvas.id='glass-transition';canvas.setAttribute('aria-hidden','true');document.body.append(canvas);
       const ctx=canvas.getContext('2d');if(!ctx){canvas.remove();return;}
-      const dpr=Math.min(devicePixelRatio||1,1.5),w=innerWidth,h=innerHeight;
-      canvas.width=w*dpr;canvas.height=h*dpr;ctx.scale(dpr,dpr);
+      const w=Math.max(1,innerWidth),h=Math.max(1,innerHeight),dpr=Math.min(devicePixelRatio||1,1.5,4096/w,4096/h,Math.sqrt(4194304/(w*h)));
+      canvas.width=Math.max(1,Math.floor(w*dpr));canvas.height=Math.max(1,Math.floor(h*dpr));ctx.scale(dpr,dpr);
       const shards=[];
       for(const r of rects){
         const cols=3,rows=3,points=[];
@@ -737,11 +740,11 @@ let motion=read('rain_motion',reduced.matches?'paused':'playing')==='playing';
 let mode=read('workspace_mode','rain');if(!['rain','classic'].includes(mode))mode='rain';
 let scene='rain',variation=0,animations=[];
 function applyMotion(){
- const playing=active&&mode==='rain'&&motion&&!$('scene-picker').open;
+ const playing=active&&mode==='rain'&&motion&&!reduced.matches&&pageDocument.documentElement.dataset.fx!=='still'&&!$('scene-picker').open;
  rainGlass.setEnabled(playing&&scene==='rain');workspaceScenes.set(scene,playing,variation);
  $('scene').value=scene;$('scene-settings').disabled=mode==='classic';
  const data=EstateScenePolicy.scenes[scene];$('scene-name').textContent=data.name;$('scene-icon').textContent=({rain:'☂',clouds:'☁',snow:'❄',dawn:'☀',sunset:'☀',night:'✧',startrails:'✧',aurora:'≈',forest:'♧',ocean:'≈',fireflies:'✦'})[scene]||'✦';
- $('photo-credit').textContent=data.credit;$('photo-credit').href=data.url;
+ $('photo-credit').textContent=data.credit;$('photo-credit').href=data.festival?'?home=1':data.url;
  $('motion-label').textContent=(motion?'Live · ':'Paused · ')+data.looks[variation];
  $('motion').setAttribute('aria-checked',String(motion));$('motion').closest('.setting-row').querySelector('small').textContent=$('scene-picker').open&&motion?'Resumes when you close settings':'Movement within the scene';
 }
@@ -761,6 +764,15 @@ $('mode').addEventListener('change',e=>{
 });
 $('motion').addEventListener('click',()=>{motion=!motion;write('rain_motion',motion?'playing':'paused');applyMotion();});
 reduced.addEventListener('change',e=>{if(e.matches){motion=false;glassTransition.cancel();applyMotion();}});
+const reducedGlass=matchMedia('(prefers-reduced-transparency: reduce)'),higherContrast=matchMedia('(prefers-contrast: more)');
+function syncAccessibility(){
+ const root=pageDocument.documentElement;
+ host.toggleAttribute('data-solid',root.hasAttribute('data-reduce-transparency')||reducedGlass.matches);
+ host.toggleAttribute('data-contrast',root.hasAttribute('data-increase-contrast')||higherContrast.matches);
+ applyMotion();
+}
+new MutationObserver(syncAccessibility).observe(pageDocument.documentElement,{attributes:true,attributeFilter:['data-reduce-transparency','data-increase-contrast','data-fx']});
+reducedGlass.addEventListener('change',syncAccessibility);higherContrast.addEventListener('change',syncAccessibility);
 const sceneControls=createSceneControls({read,write,onScene:(next,look)=>{scene=next;variation=look;applyMotion();}});
 $('scene-picker').addEventListener('toggle',()=>{pageDocument.documentElement.toggleAttribute('data-workspace-settings',active&&$('scene-picker').open);applyMotion();});
 const tabs=[...document.querySelectorAll('[data-settings-tab]')];
@@ -770,14 +782,32 @@ $('close-settings').addEventListener('click',()=>{$('scene-picker').open=false;$
 $('hide-ui').addEventListener('click',()=>{pageDocument.documentElement.setAttribute('data-workspace-view-only','');$('restore-ui').hidden=false;});
 $('restore-ui').addEventListener('click',()=>{pageDocument.documentElement.removeAttribute('data-workspace-view-only');$('restore-ui').hidden=true;});
 pageDocument.addEventListener('pointerdown',e=>{if(!e.composedPath().includes(host))$('scene-picker').open=false;});
-window.addEventListener('keydown',e=>{if(!active)return;if(e.key==='Escape'&&($('scene-picker').open||pageDocument.documentElement.hasAttribute('data-workspace-view-only'))){e.preventDefault();e.stopImmediatePropagation();$('scene-picker').open=false;pageDocument.documentElement.removeAttribute('data-workspace-view-only');$('restore-ui').hidden=true;}else if(e.composedPath().includes(host))e.stopImmediatePropagation();},true);
+// Join the existing workspace focus loop to the shadow-root settings controls.
+host.setAttribute('data-trap-companion','');
+const focusable='button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])';
+const visibleControls=root=>[...root.querySelectorAll(focusable)].filter(el=>el.tabIndex>=0&&!el.closest('[hidden],[inert]')&&el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden');
+window.addEventListener('keydown',e=>{
+ if(!active||e.key!=='Tab')return;
+ const room=pageDocument.querySelector('.notion-room');if(!room)return;
+ if([...room.querySelectorAll('[role="dialog"],[role="menu"],[aria-modal="true"]')].some(el=>el.getClientRects().length))return;
+ const native=visibleControls(room),inside=e.composedPath().includes(host),summary=$('scene-picker').querySelector('summary');
+ const focus=el=>{if(!el)return;e.preventDefault();e.stopImmediatePropagation();el.focus();};
+ if(inside){const controls=$('scene-picker').open?visibleControls($('scene-picker')):[summary],at=controls.indexOf(shadow.activeElement);
+  if(e.shiftKey&&at===0)focus($('scene-picker').open?controls.at(-1):native.at(-1));
+  else if(!e.shiftKey&&at===controls.length-1)focus($('scene-picker').open?controls[0]:native[0]);
+ }else if((!e.shiftKey&&pageDocument.activeElement===native.at(-1))||(e.shiftKey&&pageDocument.activeElement===native[0]))focus(summary);
+},true);
+window.addEventListener('keydown',e=>{if(!active)return;if(e.key==='Escape'&&($('scene-picker').open||pageDocument.documentElement.hasAttribute('data-workspace-view-only'))){e.preventDefault();e.stopImmediatePropagation();$('scene-picker').open=false;pageDocument.documentElement.removeAttribute('data-workspace-view-only');$('restore-ui').hidden=true;}},true);
+// Allow target handlers (including arrow-key tabs) before isolating shell shortcuts.
+shadow.addEventListener('keydown',e=>e.stopPropagation());
 function syncActive(){
  const room=pageDocument.querySelector('.notion-room');
+ if(room)room.setAttribute('data-trap-companions','');
  const next=!!room&&getComputedStyle(room).display!=='none'&&!pageDocument.querySelector('.estate-map:not(.is-leaving)');
  if(next===active)return;active=next;host.hidden=!active;if(!active){$('scene-picker').open=false;pageDocument.documentElement.removeAttribute('data-workspace-view-only');glassTransition.cancel();}applyMode();if(active)sceneControls.refresh();
 }
 new MutationObserver(syncActive).observe(pageDocument.getElementById('root')||pageDocument.body,{childList:true,subtree:true});
-applyMode();syncActive();
+applyMode();syncActive();syncAccessibility();
 
 })();
 (() => {

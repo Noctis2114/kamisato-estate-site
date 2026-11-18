@@ -146,3 +146,9 @@
 
 .rain-scene{contain:strict;transform:translateZ(0);backface-visibility:hidden}
 .brand,.page-footer,.workspace-atmosphere{transform:translateZ(0);backface-visibility:hidden}
+
+/* App accessibility preferences cross the shadow boundary explicitly. */
+:host([data-solid]) .scene-panel,:host([data-contrast]) .scene-panel{background:#24292f!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+:host([data-contrast]) .scene-panel{border:2px solid #dce5ef;color:#fff;--muted:#f0f2f5}
+@media(max-width:760px){.site-header .brand{gap:12px}.scene-panel{padding-bottom:24px}}
+@media(max-height:500px){.site-header{height:54px}.brand small,.workspace-atmosphere{display:none}.site-header .crest{font-size:30px}.page-footer>a,.page-footer>span{display:none}.page-footer{justify-content:center}}
