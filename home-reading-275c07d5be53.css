@@ -1,0 +1,56 @@
+/* Approved option B: soft reading margins, sharp unobscured centre. */
+:root .estate-welcome--scenic .estate-home {
+  --home-reading-rgb: 12, 22, 20;
+  --home-text: #fff9ee;
+  --home-secondary: #eee8dc;
+  --home-focus: #fff0cb;
+  --home-rule: rgba(244, 236, 216, .29);
+  --home-hover-fill: rgba(255,255,255,.08);
+}
+:root[data-appearance=light] .estate-welcome--scenic .estate-home {
+  --home-reading-rgb: 255, 250, 239;
+  --home-text: #193127;
+  --home-secondary: #2e4236;
+  --home-focus: #294d3a;
+  --home-rule: rgba(56, 81, 62, .27);
+  --home-hover-fill: rgba(255,255,255,.16);
+}
+:root .estate-welcome--scenic .estate-home > .estate-home-scrim {
+  background: linear-gradient(90deg,
+    rgba(var(--home-reading-rgb),.91) 0%,
+    rgba(var(--home-reading-rgb),.74) 18%,
+    rgba(var(--home-reading-rgb),.30) 33%,
+    transparent 47%, transparent 56%,
+    rgba(var(--home-reading-rgb),.28) 68%,
+    rgba(var(--home-reading-rgb),.78) 86%,
+    rgba(var(--home-reading-rgb),.91) 100%) !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+:root .estate-welcome--scenic :is(.estate-home-greeting, .estate-home-destinations, .estate-home-links),
+:root #main-grid .estate-welcome--scenic .estate-home-destinations button {
+  text-shadow: none;
+}
+:root .estate-welcome--scenic :is(.estate-home-date, .estate-home-intro),
+:root .estate-welcome--scenic .estate-home-destinations small,
+:root .estate-welcome--scenic .estate-home-links { font-weight:500; }
+:root .estate-welcome--scenic .estate-home-destinations strong { font-weight:600; }
+/* On a narrow screen the content fills the centre too. Keep a translucent
+   reading layer there, rather than putting lettering over an unprotected gap. */
+@media(max-width:760px) {
+  :root .estate-welcome--scenic .estate-home > .estate-home-scrim {
+    background:linear-gradient(90deg,rgba(var(--home-reading-rgb),.90),rgba(var(--home-reading-rgb),.64) 50%,rgba(var(--home-reading-rgb),.90)) !important;
+  }
+}
+:root:is([data-reduce-transparency],[data-increase-contrast]) .estate-welcome--scenic .estate-home > .estate-home-scrim {
+  background:rgb(var(--home-reading-rgb)) !important;
+}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more) {
+  :root .estate-welcome--scenic .estate-home > .estate-home-scrim { background:rgb(var(--home-reading-rgb)) !important; }
+}
+@media(forced-colors:active) {
+  :root .estate-welcome--scenic .estate-home { --home-text:CanvasText;--home-secondary:CanvasText;--home-focus:Highlight;--home-rule:CanvasText; }
+  :root .estate-welcome--scenic .estate-home > .estate-home-scrim { background:Canvas !important; }
+}
