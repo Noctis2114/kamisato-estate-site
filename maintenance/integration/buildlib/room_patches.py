@@ -6,6 +6,30 @@ Never silently replace arbitrary minified identifiers.
 
 import re
 
+
+def patch_word_selection(source):
+    """Expose active keyboard selection so the room yields Escape to the board."""
+    if '/*word-selection-escape*/' in source:
+        return source
+    selection = re.findall(r'e.key===`Escape`&&(\w+)!==null&&\(e.preventDefault\(\),\w+\(null\)\)', source)
+    grid = 'className:`ws-grid`,lang:'
+    if len(selection) != 1 or source.count(grid) != 1:
+        raise ValueError('Word Garden selection contract changed')
+    return source.replace(grid, 'className:`ws-grid`,"data-estate-escape-owned":' + selection[0] + '!==null/*word-selection-escape*/,lang:')
+
+
+def patch_courtyard_escape(source):
+    """Keep normal room Escape while allowing active child selections to cancel."""
+    if '/*child-escape-first*/' in source:
+        return source
+    contract = re.compile(r'let (\w+)=\1=>\{if\((\w+)\(\1,(\w+)\)\|\|\1.key===`Escape`&&document.querySelector\(`\[data-ayaka="library-sheet"\]`\)\)return;')
+    matches = list(contract.finditer(source))
+    if len(matches) != 1:
+        raise ValueError('Courtyard Escape contract changed')
+    m = matches[0]
+    prefix = f'let {m[1]}={m[1]}=>{{if({m[1]}.key===`Escape`&&{m[1]}.target?.closest?.(`[data-estate-escape-owned="true"]`))return;/*child-escape-first*/'
+    return source[:m.start()] + prefix + m[0].split('{', 1)[1] + source[m.end():]
+
 HIDE_CONTROLS = re.compile(
     r"(\w+)=\(\)=>\{(\w+)\.current=`reveal`,(\w+)\?\3\(\):(\w+)\(!0\)\}"
 )

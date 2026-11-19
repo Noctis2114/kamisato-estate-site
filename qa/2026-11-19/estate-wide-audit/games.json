@@ -111,235 +111,420 @@
   {
     "id": "tetris",
     "name": "Falling blocks",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "begin",
+      "move left",
+      "rotate",
+      "hard drop scores 36",
+      "pause hides well and disables other modes"
+    ]
   },
   {
     "id": "crystal",
     "name": "Crystal Break",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "begin and launch",
+      "right paddle movement 240 to 390",
+      "pause freezes paddle and launch"
+    ]
   },
   {
     "id": "sudoku",
     "name": "Sudoku",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "valid row 9 column 4 = 7",
+      "check work accepts entry",
+      "conflicting 7 flags row/column peers",
+      "mistake count increments",
+      "undo",
+      "pause hides grid and disables editing"
+    ]
   },
   {
     "id": "runner",
     "name": "Dawn Runner",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "start",
+      "jump",
+      "crouch",
+      "paces reach 10",
+      "pause disables actions"
+    ]
   },
   {
     "id": "typing",
     "name": "Ink Sprint",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "type first sentence",
+      "100 percent accuracy feedback",
+      "pause preserves text and timer state"
+    ]
   },
   {
     "id": "numbers",
     "name": "Number Path",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "wrong number increments mistake/time penalty",
+      "fresh board completed 36 of 36",
+      "24.5 second best recorded in book"
+    ]
   },
   {
     "id": "lantern",
     "name": "Sky Lantern",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "light lantern",
+      "lift",
+      "S steady hold consumes warm air to 0.697",
+      "pause disables lift/hold"
+    ]
   },
   {
     "id": "pagoda",
     "name": "Skyward Pagoda",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "begin",
+      "drop floor",
+      "pause",
+      "resume yields height 1 and score 12"
+    ]
   },
   {
     "id": "mahjong",
     "name": "Mahjong Solitaire",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "select free Green dragon pair",
+      "tiles 144 to 142",
+      "undo returns 144",
+      "H hint identifies available pair"
+    ]
   },
   {
     "id": "volley",
     "name": "Lantern Volley",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "aim right",
+      "swap",
+      "shoot decrements next-row count",
+      "pause disables aim and shoot"
+    ]
   },
   {
     "id": "solitaire",
     "name": "Solitaire",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "D draws stock",
+      "move count increments",
+      "H hint action",
+      "U restores stock and move count"
+    ]
   },
   {
     "id": "sokoban",
     "name": "Stone Garden",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "keyboard right three times",
+      "completed level 1 in 3 moves and 2 pushes",
+      "best score and cleared count recorded"
+    ]
   },
   {
     "id": "nonogram",
     "name": "Ink Grid",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "keyboard ink",
+      "move cursor",
+      "undo",
+      "hint reveals inked square",
+      "pause covers grid and disables hint",
+      "final rebuilt version: pointer pause, covered board and centered pause message visually checked in Safari"
+    ]
   },
   {
     "id": "reversi",
     "name": "Ink and Snow",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "legal d3 move flips one disc",
+      "AI c3 reply gives 3 to 3",
+      "undo restores initial 2 to 2"
+    ]
   },
   {
     "id": "fourinarow",
     "name": "Four Lanterns",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "centre column drop",
+      "AI replies in same column",
+      "disc counts 1 each, 4 empty"
+    ]
   },
   {
     "id": "wordsearch",
     "name": "Word Garden",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "keyboard selection",
+      "Escape conflict reproduced and fixed",
+      "Escape cancels active selection without leaving",
+      "keyboard completes diagonal DAWN, found 1/10"
+    ]
   },
   {
     "id": "blossoms",
     "name": "Blossom Match",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "swap r1c4 and r2c4",
+      "three wisteria match",
+      "score 30 and moves 29"
+    ]
   },
   {
     "id": "seeds",
     "name": "Jade Seeds",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "sow pit 3",
+      "store increases to 1",
+      "extra turn retained"
+    ]
   },
   {
     "id": "pearl",
     "name": "Pearl Journey",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "right and down tilt",
+      "timer starts",
+      "pause disables all tilt buttons"
+    ]
   },
   {
     "id": "spirit",
     "name": "Spirit Flight",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "fly",
+      "space and up flap",
+      "pause shows resume overlay"
+    ]
   },
   {
     "id": "descent",
     "name": "Petal Descent",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "begin",
+      "left/right steering",
+      "pause disables movement"
+    ]
   },
   {
     "id": "pinball",
     "name": "Lantern Pinball",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "begin",
+      "hold space to launch",
+      "left and right flippers",
+      "nudge",
+      "pause disables plunger and flippers"
+    ]
   },
   {
     "id": "minigolf",
     "name": "Moss Green",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "tee off",
+      "hold space for power",
+      "one stroke recorded",
+      "pause locks aim and putt"
+    ]
   },
   {
     "id": "blackjack",
     "name": "Blackjack",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "deal 50 practice chips",
+      "stand on 14",
+      "dealer resolves 19",
+      "settlement -50 leaves 950"
+    ]
   },
   {
     "id": "roulette",
     "name": "Roulette",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "red practice bet 10",
+      "spin locks bet controls",
+      "27 red settlement +10 balance 1010"
+    ]
   },
   {
     "id": "slots",
     "name": "Estate Slots",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "spin with practice chips",
+      "pause locks reels and stakes",
+      "resume",
+      "stake returned, net zero"
+    ]
   },
   {
     "id": "holdem",
-    "name": "Texas Hold\u2019em",
-    "status": "pending",
-    "paths": []
+    "name": "Texas Hold’em",
+    "status": "played",
+    "paths": [
+      "deal blinds 10/20",
+      "call 20",
+      "stack 980 pot 50",
+      "turn passes and controls lock"
+    ]
   },
   {
     "id": "stud",
     "name": "Five-card Stud",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "deal antes 5 each",
+      "check",
+      "pause locks actions"
+    ]
   },
   {
     "id": "baccarat",
     "name": "Baccarat",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "player practice bet 20",
+      "automatic card draw begins",
+      "stake and outcome controls lock during deal"
+    ]
   },
   {
     "id": "sicbo",
     "name": "Sic Bo",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "small practice bet",
+      "roll locks controls",
+      "total 14 loses 20 leaving 980"
+    ]
   },
   {
     "id": "videopoker",
     "name": "Video Poker",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "deal one credit",
+      "hold 5 diamonds",
+      "draw replaces other cards",
+      "held card persists, no winning hand balance 999"
+    ]
   },
   {
     "id": "threecard",
     "name": "Three Card Poker",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "deal ante 20",
+      "fold",
+      "dealer reveals, only ante committed"
+    ]
   },
   {
     "id": "casinowar",
     "name": "Casino War",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "deal",
+      "pause before reveal",
+      "resume",
+      "dealer jack beats nine, net -20 balance 980"
+    ]
   },
   {
     "id": "craps",
     "name": "Craps",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "Pass editor",
+      "place 2 chips, available 998 reserved 2",
+      "roll 3+2",
+      "point established 5 net zero"
+    ]
   },
   {
     "id": "paigow",
     "name": "Pai Gow Poker",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "deal seven",
+      "house way selects legal split",
+      "confirm reveals dealer",
+      "both hands win, return39 commission1 net+19"
+    ]
   },
   {
     "id": "chess",
     "name": "Chess",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "e2-e4",
+      "AI Nf6 reply",
+      "undo restores e2 and empty e4"
+    ]
   },
   {
     "id": "go",
     "name": "Go",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "black E5",
+      "white J4 AI reply",
+      "stone count 1-1"
+    ]
   },
   {
     "id": "konpira",
     "name": "Konpira",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "half-speed practice",
+      "begin chant",
+      "missed beat result",
+      "retry starts again"
+    ]
   },
   {
     "id": "matcha",
     "name": "Matcha lesson",
-    "status": "pending",
-    "paths": []
+    "status": "played",
+    "paths": [
+      "dismiss rules",
+      "turn crescent moon",
+      "turn lantern",
+      "mismatch increments moves",
+      "both cards turn back"
+    ]
   }
 ]

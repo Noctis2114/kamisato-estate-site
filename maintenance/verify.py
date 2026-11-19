@@ -10,6 +10,7 @@ commands = [
     ([sys.executable, str(root / "tests/release-graph.py")], site),
     (["node", str(root / "tests/windchime-controls.cjs")], site),
     (["node", str(root / "tests/wish-spacing.cjs")], site),
+    (["node", str(root / "tests/game-polish.cjs")], site),
 ]
 commands += [
     (["node", str(site / "qa/2026-11-18/map-regression.cjs")], site),

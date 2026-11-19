@@ -1,0 +1,33 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const source=fs.readFileSync('maintenance/integration/game-polish.js','utf8');
+const listeners={},root={dataset:{},classList:{contains:()=>false}};
+let observer,live=0,peak=0,created=0;
+const media={matches:false,addEventListener:(type,fn)=>media.change=fn};
+const doc={documentElement:root,body:{},hidden:false,querySelectorAll:()=>[],addEventListener:(name,fn)=>listeners[name]=fn};
+vm.runInNewContext(source,{document:doc,matchMedia:()=>media,MutationObserver:class{constructor(fn){observer=fn}observe(){}},getComputedStyle:el=>({transform:el.transform||'none',animationName:el.animationName||'none'})});
+function element(){return {isConnected:true,disabled:false,matches:()=>true,closest:selector=>selector.includes('pavilion-game')?{}:null,getAttribute:()=>null,animate(){created++;live++;peak=Math.max(peak,live);let done=false;return{finished:new Promise(()=>{}),cancel(){if(!done){live--;done=true}}}}};}
+assert.equal(root.dataset.estateInput,'pointer');
+listeners.keydown({key:'ArrowRight'});assert.equal(root.dataset.estateInput,'pointer');
+listeners.keydown({key:'Tab'});assert.equal(root.dataset.estateInput,'keyboard');
+for(let i=0;i<1000;i++){const el=element();listeners.pointerdown({composedPath:()=>[el]});}
+assert.equal(root.dataset.estateInput,'pointer');assert(peak<=32);assert.equal(live,32);
+doc.hidden=true;listeners.visibilitychange();assert.equal(live,0);
+const before=created;listeners.pointerdown({composedPath:()=>[element()]});assert.equal(created,before);
+doc.hidden=false;media.matches=true;listeners.pointerdown({composedPath:()=>[element()]});assert.equal(created,before);
+media.matches=false;const disabled=element();disabled.disabled=true;listeners.pointerdown({composedPath:()=>[disabled]});assert.equal(created,before);
+const el=element();listeners.pointerdown({composedPath:()=>[el]});assert.equal(live,1);
+observer([{type:'attributes',attributeName:'data-paused',target:{getAttribute:()=> 'true',contains:target=>target===el,closest:()=>null}}]);assert.equal(live,0);
+listeners.pointerdown({composedPath:()=>[element()]});media.matches=true;media.change();assert.equal(live,0);
+media.matches=false;
+const still=element();still.closest=selector=>selector.includes('pavilion-game')?{}:selector.includes('[data-fx=still]')?{}:null;
+const beforeStill=created;listeners.pointerdown({composedPath:()=>[still]});assert.equal(created,beforeStill);
+const positioned=element();positioned.transform='matrix(1, 0, 0, 1, -100, -50)';let frames;
+const originalAnimate=positioned.animate;positioned.animate=function(value){frames=value;return originalAnimate.call(this)};
+listeners.pointerdown({composedPath:()=>[positioned]});assert.equal(frames[0].transform,positioned.transform);assert(frames[1].transform.startsWith(positioned.transform));assert.equal(frames[2].transform,positioned.transform);
+const authored=element();authored.nodeType=1;authored.querySelectorAll=()=>[];authored.animationName='original-deal';
+authored.querySelector=()=>null;authored.matches=selector=>selector.includes('.poker-card');
+const beforeDeal=created;observer([{type:'childList',addedNodes:[authored],target:{}}]);assert.equal(created,beforeDeal);
+const motionCSS=fs.readFileSync('maintenance/integration/styles/interaction-polish.css','utf8');
+assert(!motionCSS.slice(motionCSS.indexOf('@keyframes estate-result-arrive'),motionCSS.indexOf('@media (forced-colors')).includes('transform:'));
+console.log('PASS: 1000 interactions bounded to 32 effects; keyboard focus; hidden/reduced/still/disabled controls; cancellation; game positioning and authored dealing preserved.');

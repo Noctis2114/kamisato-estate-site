@@ -4,7 +4,7 @@ from pathlib import Path
 import sys, tempfile, json, subprocess
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "integration"))
-from buildlib.room_patches import patch_windchime
+from buildlib.room_patches import patch_windchime, patch_word_selection, patch_courtyard_escape
 from buildlib.cache import stamp_cache
 
 original = (
@@ -29,6 +29,22 @@ for source in ["", original + ";" + original]:
         pass
     else:
         raise AssertionError("Unknown/ambiguous release must fail closed")
+
+site = Path(__file__).resolve().parents[2]
+word = (site / 'assets/game-BCmGJzHf.js').read_text()
+court = (site / 'assets/courtyard-BnX_zMGo.js').read_text()
+assert patch_word_selection(word) == word
+assert patch_courtyard_escape(court) == court
+for patch in (patch_word_selection, patch_courtyard_escape):
+    try:
+        patch('unexpected release')
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('Unknown game contract must fail closed')
+import re
+guard = re.search(r'if\(t.key===`Escape`&&t.target\?\.closest\?\.\(`\[data-estate-escape-owned="true"\]`\)\)return;', court).group()
+subprocess.run(['node', '-e', 'const assert=require("node:assert/strict");let roomCalls=0;function handler(t){' + guard + 'roomCalls++} for(const owned of [true,false]){let before=roomCalls;handler({key:"Escape",target:{closest:()=>owned}});assert.equal(roomCalls-before,owned?0:1)}handler({key:"Escape",target:null});assert.equal(roomCalls,2);'], check=True)
 with tempfile.TemporaryDirectory() as tmp:
     out = Path(tmp)
     dest = out / "living-workspace"

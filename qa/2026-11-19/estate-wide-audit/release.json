@@ -1,0 +1,8 @@
+{
+  "release_label": "game-motion-focus-audit-2026-11-19",
+  "cache_revision": "f524f356ca1e",
+  "portable_bytes": 313219230,
+  "portable_sha256": "45a302ab357aa9bcea420dc1d024cd0f3c11c5e33d5e9b6a47eff91b51a6960b",
+  "interactive_games": 48,
+  "verification_command": "python3 maintenance/verify.py"
+}

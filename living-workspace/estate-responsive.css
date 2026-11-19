@@ -220,3 +220,40 @@
 
 :root .estate-map .map-room-list button{background:var(--mat-control)!important;color:var(--mat-ink)!important;border:1px solid var(--mat-rim)!important;text-shadow:var(--mat-text-shadow)}
 :root .estate-map .map-tools :is(button,summary){color:var(--mat-ink)!important;text-shadow:var(--mat-text-shadow)}
+
+/* Focus is a navigation aid, never a frame around the scene or game title. */
+:root { --estate-focus-style: none; }
+:root[data-estate-input=keyboard] { --estate-focus-style: solid; }
+:root:not(#m):not(#m):not(#m) :is(h1,h2,h3,h4,[role=heading],[role=dialog])[tabindex="-1"]:focus {
+  outline: none !important;
+}
+:root:not([data-estate-input=keyboard]):not(#m):not(#m):not(#m) :focus,
+:root:not([data-estate-input=keyboard]):not(#m):not(#m):not(#m) :focus-visible::before,
+:root:not([data-estate-input=keyboard]):not(#m):not(#m):not(#m) .language-select:focus-within {
+  outline: none !important;
+}
+:root[data-estate-input=keyboard]:not(#m):not(#m) :focus-visible {
+  outline-color: var(--mat-accent-ink, currentColor);
+  outline-width: 2px;
+  outline-offset: 3px;
+}
+/* A marker selection still belongs to the game; focus suppression must not
+   erase held cards, legal moves, winning pieces or the active square. */
+@media (prefers-reduced-motion:no-preference) {
+  :root:not(.is-quiet):not([data-fx=still]):not([data-fxg=still]) .pavilion-game :is(.bj-card,.bac-card.is-dealt,.tc-card.is-dealt,.cw-card.is-dealt,.pg-card.is-dealt,.vp-card.is-dealt) {
+    animation-duration: 320ms;
+    animation-timing-function: cubic-bezier(.2,.75,.25,1);
+  }
+  :root:not(.is-quiet):not([data-fx=still]):not([data-fxg=still]) .pavilion-game :is(.bl-piece,.sakura-piece) {
+    animation: estate-piece-arrive 180ms ease-out;
+  }
+  :root:not(.is-quiet):not([data-fx=still]):not([data-fxg=still]) .pavilion-game :is(.cedar-overlay,.starfall-overlay,.starfall-result,.crystal-result,.descent-result,.mahjong-result,.minigolf-result,.nonogram-paused,.pagoda-result,.pearl-result,.pinball-result,.sol-result,.spirit-result,.typing-result,.volley-result,.ws-paused,.bac-notice,.cr-notice,.sb-notice,.slots-notice,.vp-notice) {
+    animation: estate-result-arrive 180ms ease-out;
+  }
+}
+@keyframes estate-piece-arrive { from { opacity:.4; } to { opacity:1; } }
+/* Individual translate preserves game-owned transforms used to center overlays. */
+@keyframes estate-result-arrive { from { opacity:.5; translate:0 4px; } to { opacity:1; translate:0 0; } }
+@media (forced-colors:active) {
+  :root[data-estate-input=keyboard] :focus-visible { outline-color: Highlight !important; }
+}

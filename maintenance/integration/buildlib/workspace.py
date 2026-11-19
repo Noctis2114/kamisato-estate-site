@@ -63,6 +63,8 @@ def build_workspace(ROOT, SRC, WORK, DEST):
         + (WORK / "styles/materials.css").read_text()
         + "\n"
         + (WORK / "styles/map-material.css").read_text()
+        + "\n"
+        + (WORK / "styles/interaction-polish.css").read_text()
     )
     (DEST / "estate-responsive.css").write_text(estate_css)
     setup = """(()=>{ 'use strict';
@@ -113,6 +115,8 @@ def build_workspace(ROOT, SRC, WORK, DEST):
         + (WORK / "estate-responsive.js").read_text()
         + "\n"
         + (WORK / "windchime-controls.js").read_text()
+        + "\n"
+        + (WORK / "game-polish.js").read_text()
     )
     web = (
         setup

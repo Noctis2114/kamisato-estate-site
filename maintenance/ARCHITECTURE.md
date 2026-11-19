@@ -22,6 +22,7 @@ responsive integration and release packaging. Do not edit generated files under
 | Glass transitions | `glass-transition.js` |
 | Native workspace lifecycle and keyboard bridge | `integration/workspace-adapter.js` |
 | Garden click-to-reveal | `integration/windchime-controls.js` |
+| Pointer/keyboard focus and game motion | `integration/game-polish.js`, `integration/styles/interaction-polish.css` |
 | Build orchestration | `integration/build.py` |
 | Web HTML entry points | `integration/buildlib/web.py` |
 | Legacy release compatibility | `integration/buildlib/compatibility.py`, `room_patches.py` |
@@ -34,6 +35,14 @@ Light/dark state remains on the existing document root. CSS tokens inherit into
 the shadow root, so there is no second appearance preference to get out of sync.
 Automatic animation budgeting changes blur cost, not the chosen glass material.
 Reduce Transparency and Increase Contrast deliberately select solid surfaces.
+
+The game polish module is presentation-only: it never owns game state, clocks,
+cards, scoring or persistence. It adds bounded, short-lived effects, preserves
+authored card animations and game positioning, and respects reduced/still motion.
+Pointer play suppresses incidental focus outlines; Tab navigation retains them.
+Word Garden's active selection owns its first Escape press, before the Courtyard
+can treat Escape as a room exit. That legacy event fix is a guarded patch in
+`room_patches.py`, applied consistently to both web and standalone builds.
 
 ## Rebuilding
 
