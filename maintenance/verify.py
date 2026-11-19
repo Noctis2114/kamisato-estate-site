@@ -8,6 +8,7 @@ site = root.parent
 commands = [
     ([sys.executable, str(root / "tests/build-regression.py")], site),
     ([sys.executable, str(root / "tests/release-graph.py")], site),
+    ([sys.executable, str(root / "tests/solitaire-announcement.py")], site),
     (["node", str(root / "tests/windchime-controls.cjs")], site),
     (["node", str(root / "tests/wish-spacing.cjs")], site),
     (["node", str(root / "tests/game-polish.cjs")], site),

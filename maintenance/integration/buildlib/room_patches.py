@@ -7,6 +7,21 @@ Never silently replace arbitrary minified identifiers.
 import re
 
 
+def patch_solitaire_announcement(source):
+    """Do not announce an empty card-list prefix after Undo or a stock recycle."""
+    marker = '/*sol-announcement-punctuation*/'
+    if source.count(marker) == 1:
+        return source
+    contract = re.compile(
+        r'(children:\[(\w+)\[(\w+)\]\[(\w+)\.kind\],)`: `(,\4\.cards\.map\()'
+    )
+    if len(contract.findall(source)) != 1:
+        raise ValueError('Solitaire announcement contract changed')
+    return contract.sub(
+        lambda m: m[1] + m[4] + '.cards.length?`: `:``' + marker + m[5], source
+    )
+
+
 def patch_word_selection(source):
     """Expose active keyboard selection so the room yields Escape to the board."""
     if '/*word-selection-escape*/' in source:

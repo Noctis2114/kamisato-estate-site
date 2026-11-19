@@ -1,7 +1,7 @@
 """Legacy release compatibility boundary: no direct bundle edits elsewhere."""
 
 import json
-from .room_patches import patch_windchime, patch_wish_spacing, patch_word_selection, patch_courtyard_escape
+from .room_patches import patch_windchime, patch_wish_spacing, patch_word_selection, patch_courtyard_escape, patch_solitaire_announcement
 
 # Every map viewport starts at the minimum edge-to-edge scale, preserving aspect ratio.
 old = "let r=`x`in n?{left:n.x,right:n.x,top:n.y,bottom:n.y}:n,i=Math.max(1,e.w-r.left-r.right)"
@@ -39,7 +39,7 @@ def patch_app_module(source):
     source = source.replace(
         zoom_old.replace("Z", "wc"), zoom_new.replace("Z", "wc")
     ).replace(pinch_old.replace("Z", "wc"), pinch_new.replace("Z", "wc"))
-    return patch_courtyard_escape(patch_word_selection(patch_wish_spacing(patch_windchime(source))))
+    return patch_solitaire_announcement(patch_courtyard_escape(patch_word_selection(patch_wish_spacing(patch_windchime(source)))))
 
 
 def patch_web_release(OUT):
@@ -67,6 +67,8 @@ def patch_web_release(OUT):
     word.write_text(patch_word_selection(word.read_text()))
     courtyard = OUT / "assets/courtyard-BnX_zMGo.js"
     courtyard.write_text(patch_courtyard_escape(courtyard.read_text()))
+    solitaire = OUT / "assets/game-cP7gSXPs.js"
+    solitaire.write_text(patch_solitaire_announcement(solitaire.read_text()))
     manifest = OUT / "manifest.webmanifest"
     manifest_data = json.loads(manifest.read_text())
     manifest_data["share_target"]["enctype"] = "application/x-www-form-urlencoded"

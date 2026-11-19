@@ -1,8 +1,9 @@
 {
-  "release_label": "game-motion-focus-audit-2026-11-19",
-  "cache_revision": "f524f356ca1e",
-  "portable_bytes": 313219230,
-  "portable_sha256": "45a302ab357aa9bcea420dc1d024cd0f3c11c5e33d5e9b6a47eff91b51a6960b",
+  "release_label": "solitaire-announcement-and-csp-diagnosis-2026-11-19",
+  "cache_revision": "28c1ce1751f2",
+  "portable_bytes": 313219280,
+  "portable_sha256": "15b6c88af5e1761c9a1b596bd8e8308f9a86ebc7be9e8a5358ae5bdf8e2ad6b8",
   "interactive_games": 48,
-  "verification_command": "python3 maintenance/verify.py"
+  "verification_command": "python3 maintenance/verify.py",
+  "portable_md5": "778618a20f71ee265575e8c52ba4989e"
 }

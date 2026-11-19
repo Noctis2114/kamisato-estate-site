@@ -54,10 +54,24 @@ and external monitors are not connected test devices here. Responsive geometry
 checks are not physical-device certification. Longer matches, all settings
 combinations and sustained multi-hour use remain outside a finite smoke audit.
 
-Safari emitted inline stylesheet CSP messages on the retained application. No
-security policy has been weakened; source attribution remains under investigation.
-The recovered older React source does not exactly match the published release;
-see `maintenance/ARCHITECTURE.md` for the preserved compatibility boundary.
+## Follow-up: announcement and Safari warning
 
-Minor retained issue: Solitaire's undo announcement can omit its action label
-(“Undone: . Waste: Empty”); the observed undo action itself worked.
+Solitaire's empty card list produced “Undone: . Waste: Empty”. The shared status
+expression now omits the colon when the list is empty, producing “Undone. Waste:
+Empty”. Populated draw/move announcements keep their card descriptions. The
+regression executes the actual release expression for all eight languages, and
+the compatibility patch is applied to web and complete HTM builds.
+Safari retest passed in both the local web release and the rebuilt Documents HTM:
+draw produced a populated card announcement; Undo returned moves to zero, emptied
+the waste and announced “Undone. Waste: Empty”.
+
+Safari's stylesheet warning was traced to native `select` construction: four
+workspace selects and the application's native selects. A page with only a CSP,
+an external diagnostic script and `document.createElement('select') reproduces
+`style-src-attr` / `inline`, with sample `text-overflow:inherit`. Creating a
+plain div does not produce the warning. No Estate styles or React are required.
+`native-select-csp.html` preserves that minimal reproduction. This browser-level
+warning remains; no CSP allowance, log suppression or React workaround was added.
+
+The matching November 15 source recovery manifest has now been found but has not
+been fully restored or reconciled. See `maintenance/PC_TRANSFER.md`.

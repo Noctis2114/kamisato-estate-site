@@ -79,6 +79,9 @@ A changed bundle contract must fail the build rather than silently skip a fix.
 
 A future full application rebuild should first recover the exact React/TypeScript
 release source, reconcile post-release integration, and pass the room/game matrix.
+The November 15 transfer records now identify that exact `da7e8c5` source and its
+incremental bundle/base dependency. They have not yet been fully restored or
+verified in this session; see `PC_TRANSFER.md` for the recovery pointers.
 This maintenance extraction makes current changes editable; it does not pretend
 that every legacy minified module has been reconstructed into original source.
 
