@@ -639,9 +639,10 @@ Object.values(EstateScenePolicy.scenes).forEach(d=>{d.image=asset(d.image);if(d.
    // The original Estate owns calendar/hemisphere resolution; use its resolved state.
    return {festival:doc?.documentElement.dataset.festival||stored.festival||'none',season:doc?.documentElement.dataset.season||stored.season};
   }
-  let weather=null,busy=false,request=0,lastAttempt=0,current=fixed;
+  let weather=null,busy=false,cityBusy=false,request=0,lastAttempt=0,current=fixed;
+  const validCity=c=>c&&typeof c.name==='string'&&c.name.trim().length>0&&Number.isFinite(c.lat)&&Math.abs(c.lat)<=90&&Number.isFinite(c.lon)&&Math.abs(c.lon)<=180;
   let city;try{city=JSON.parse(read('weather_city','null'));}catch{}
-  if(!city||!Number.isFinite(city.lat)||!Number.isFinite(city.lon))city={name:'Singapore',lat:1.29,lon:103.85};
+  if(!validCity(city))city={name:'Singapore',lat:1.29,lon:103.85};
   const names=Object.keys(P.scenes);
   $('scene').replaceChildren(...names.map(key=>{const o=document.createElement('option');o.value=key;o.textContent=P.scenes[key].name;return o;}));
   for(const key of names){const data=P.scenes[key],b=document.createElement('button');b.type='button';b.className='scene-tile';b.dataset.choice=key;b.setAttribute('aria-label',data.name+'. '+data.description);const img=document.createElement('span');img.className='scene-thumb';img.style.backgroundImage=`url("${data.image}")`;const label=document.createElement('span');label.textContent=data.name;b.append(img,label);b.addEventListener('click',()=>choose(key));$('scene-gallery').append(b);}
@@ -661,7 +662,8 @@ Object.values(EstateScenePolicy.scenes).forEach(d=>{d.image=asset(d.image);if(d.
    $('scene-status').textContent=status;$('scene-follow-label').textContent=(festive?'Estate festival':behaviour==='fixed'?'Kept until you change it':behaviour==='daily'?'Today’s wallpaper':fresh?`${city.name} · ${fresh.label}`:'Following time · weather unavailable')+' · '+P.scenes[current].looks[look];
    onScene(current,look);
   }
-  function choose(key){fixed=key;behaviour='fixed';matchFestivals=false;request++;busy=false;write('workspace_scene',key);write('scene_behaviour',behaviour);write('match_festivals','no');render();}
+  function cancelRequests(){request++;busy=false;cityBusy=false;$('city-message').textContent='';}
+  function choose(key){fixed=key;behaviour='fixed';matchFestivals=false;cancelRequests();write('workspace_scene',key);write('scene_behaviour',behaviour);write('match_festivals','no');render();}
   $('mood').addEventListener('change',e=>{mood=e.target.value;write('scene_mood',mood);render();});
   $('match-festivals').addEventListener('change',e=>{matchFestivals=e.target.checked;write('match_festivals',matchFestivals?'yes':'no');render();});
   $('match-season').addEventListener('change',e=>{seasonal=e.target.checked;write('match_season',seasonal?'yes':'no');render();});
@@ -671,7 +673,7 @@ Object.values(EstateScenePolicy.scenes).forEach(d=>{d.image=asset(d.image);if(d.
   window.addEventListener('storage',e=>{if(['ayaka_festivals','ayaka_estate_seasons'].includes(e.key))render();});
   async function json(url){const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),10000);try{const r=await fetch(url,{signal:abort.signal});if(!r.ok)throw Error('Unavailable');return await r.json();}finally{clearTimeout(timer);}}
   async function fetchWeather(){
-   if(behaviour!=='weather'||busy||document.hidden)return;
+   if(behaviour!=='weather'||busy||cityBusy||document.hidden)return;
    const id=++request;busy=true;lastAttempt=Date.now();render();
    try{const url=new URL('https://api.open-meteo.com/v1/forecast');url.search=new URLSearchParams({latitude:city.lat,longitude:city.lon,current:'weather_code,is_day',timezone:'auto'});
     const data=await json(url);if(id!==request||behaviour!=='weather')return;
@@ -682,9 +684,20 @@ Object.values(EstateScenePolicy.scenes).forEach(d=>{d.image=asset(d.image);if(d.
   }
   $('scene').addEventListener('change',e=>choose(e.target.value));
   $('keep-scene').addEventListener('click',()=>choose(current));
-  $('behaviour').addEventListener('change',e=>{request++;busy=false;behaviour=e.target.value;if(behaviour==='fixed'){fixed=current;write('workspace_scene',fixed);}write('scene_behaviour',behaviour);render();if(behaviour==='weather')fetchWeather();});
+  $('behaviour').addEventListener('change',e=>{cancelRequests();behaviour=e.target.value;if(behaviour==='fixed'){fixed=current;write('workspace_scene',fixed);}write('scene_behaviour',behaviour);render();if(behaviour==='weather')fetchWeather();});
   $('weather-city').value=city.name;
-  $('city-form').addEventListener('submit',async e=>{e.preventDefault();const query=$('weather-city').value.trim();if(query.length<2)return;const id=++request;busy=false;$('city-message').textContent='Finding city…';try{const data=await json('https://geocoding-api.open-meteo.com/v1/search?count=1&language=en&name='+encodeURIComponent(query));if(id!==request)return;const found=data.results?.[0];if(!found)throw Error('No match');city={name:found.name+(found.country_code?' · '+found.country_code:''),lat:found.latitude,lon:found.longitude};write('weather_city',JSON.stringify(city));weather=null;$('weather-city').value=city.name;$('city-message').textContent='Using '+city.name;fetchWeather();}catch{if(id===request)$('city-message').textContent='City not found or connection unavailable. Try city, country.';}});
+  $('city-form').addEventListener('submit',async e=>{
+   e.preventDefault();const query=$('weather-city').value.trim();if(query.length<2)return;
+   const id=++request;busy=false;cityBusy=true;$('city-message').textContent='Finding city…';
+   try{
+    const data=await json('https://geocoding-api.open-meteo.com/v1/search?count=1&language=en&name='+encodeURIComponent(query));if(id!==request)return;
+    const found=data?.results?.[0],next=found&&{name:found.name,lat:found.latitude,lon:found.longitude};if(!validCity(next))throw Error('Invalid city');
+    next.name=next.name.trim()+(typeof found.country_code==='string'&&/^[A-Z]{2}$/.test(found.country_code)?' · '+found.country_code:'');
+    city=next;write('weather_city',JSON.stringify(city));weather=null;$('weather-city').value=city.name;$('city-message').textContent='Using '+city.name;
+    cityBusy=false;fetchWeather();
+   }catch{if(id===request)$('city-message').textContent='City not found or connection unavailable. Try city, country.';}
+   finally{if(id===request){cityBusy=false;render();}}
+  });
   function tick(){if(document.hidden)return;if(behaviour==='weather'&&!busy&&Date.now()-lastAttempt>=15*60*1000)fetchWeather();else render();}
   setInterval(tick,60000);document.addEventListener('visibilitychange',tick);
   document.addEventListener('click',e=>{if(!e.composedPath().includes($('scene-picker')))$('scene-picker').open=false;});
