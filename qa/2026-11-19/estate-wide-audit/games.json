@@ -1,0 +1,345 @@
+[
+  {
+    "id": "guandan",
+    "name": "Guandan",
+    "status": "played",
+    "paths": [
+      "take seat",
+      "select 3 hearts",
+      "submit single",
+      "AI seats respond",
+      "pause"
+    ]
+  },
+  {
+    "id": "starfall",
+    "name": "Starfall Passage",
+    "status": "played",
+    "paths": [
+      "begin passage",
+      "keyboard steering",
+      "pause",
+      "resume",
+      "collision result",
+      "another route",
+      "gate progress 1/12"
+    ]
+  },
+  {
+    "id": "cedar",
+    "name": "Cedar Descent",
+    "status": "played",
+    "paths": [
+      "begin descent",
+      "left steering",
+      "pause",
+      "resume",
+      "right steering",
+      "score/distance progress 6 to 10"
+    ]
+  },
+  {
+    "id": "terrarium",
+    "name": "Terrarium",
+    "status": "played",
+    "paths": [
+      "plant Kokedama in empty plot",
+      "water 60 to 100 percent",
+      "watering disables at full",
+      "Notes page"
+    ]
+  },
+  {
+    "id": "sakura",
+    "name": "Sakura 2048",
+    "status": "played",
+    "paths": [
+      "four arrow moves",
+      "score 0 to 4",
+      "undo moves 4 to 3",
+      "confirm switch 4x4 to 5x5 resets board"
+    ]
+  },
+  {
+    "id": "koi",
+    "name": "Koi",
+    "status": "played",
+    "paths": [
+      "release koi",
+      "up/right steering",
+      "pause disables steering",
+      "settings during pause",
+      "Peaceful requires Apply & restart",
+      "applied mode resets round"
+    ]
+  },
+  {
+    "id": "sweeper",
+    "name": "Lantern sweeper",
+    "status": "played",
+    "paths": [
+      "open center cell with safe first expansion",
+      "right-click flag decrements lantern count",
+      "colour-safe toggle",
+      "P pauses and disables hint"
+    ]
+  },
+  {
+    "id": "slide",
+    "name": "Picture puzzle",
+    "status": "played",
+    "paths": [
+      "slide tile 7",
+      "moves 0 to 1",
+      "undo restores original board",
+      "show picture reference",
+      "hint counted"
+    ]
+  },
+  {
+    "id": "catch",
+    "name": "Petal catch",
+    "status": "played",
+    "paths": [
+      "short 20 second round",
+      "wide basket",
+      "left/right keyboard movement",
+      "finished round with 11 points",
+      "result reports catches/misses and best score"
+    ]
+  },
+  {
+    "id": "tetris",
+    "name": "Falling blocks",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "crystal",
+    "name": "Crystal Break",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "sudoku",
+    "name": "Sudoku",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "runner",
+    "name": "Dawn Runner",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "typing",
+    "name": "Ink Sprint",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "numbers",
+    "name": "Number Path",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "lantern",
+    "name": "Sky Lantern",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "pagoda",
+    "name": "Skyward Pagoda",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "mahjong",
+    "name": "Mahjong Solitaire",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "volley",
+    "name": "Lantern Volley",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "solitaire",
+    "name": "Solitaire",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "sokoban",
+    "name": "Stone Garden",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "nonogram",
+    "name": "Ink Grid",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "reversi",
+    "name": "Ink and Snow",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "fourinarow",
+    "name": "Four Lanterns",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "wordsearch",
+    "name": "Word Garden",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "blossoms",
+    "name": "Blossom Match",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "seeds",
+    "name": "Jade Seeds",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "pearl",
+    "name": "Pearl Journey",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "spirit",
+    "name": "Spirit Flight",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "descent",
+    "name": "Petal Descent",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "pinball",
+    "name": "Lantern Pinball",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "minigolf",
+    "name": "Moss Green",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "blackjack",
+    "name": "Blackjack",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "roulette",
+    "name": "Roulette",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "slots",
+    "name": "Estate Slots",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "holdem",
+    "name": "Texas Hold\u2019em",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "stud",
+    "name": "Five-card Stud",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "baccarat",
+    "name": "Baccarat",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "sicbo",
+    "name": "Sic Bo",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "videopoker",
+    "name": "Video Poker",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "threecard",
+    "name": "Three Card Poker",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "casinowar",
+    "name": "Casino War",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "craps",
+    "name": "Craps",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "paigow",
+    "name": "Pai Gow Poker",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "chess",
+    "name": "Chess",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "go",
+    "name": "Go",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "konpira",
+    "name": "Konpira",
+    "status": "pending",
+    "paths": []
+  },
+  {
+    "id": "matcha",
+    "name": "Matcha lesson",
+    "status": "pending",
+    "paths": []
+  }
+]

@@ -1,0 +1,18 @@
+/* Scenery fills the viewport; image proportions and map coordinates are preserved. */
+:root .estate-map .map-backing{opacity:1!important;inset:-24px!important;background-size:cover!important;background-position:center!important;filter:blur(18px);transform:scale(1.025)}
+:root .estate-map .map-picture{mask-image:none;-webkit-mask-image:none}
+:root .estate-map .map-tools{max-width:calc(100% - 32px)}
+:root .estate-map .map-hint{max-width:calc(100% - 32px);font-size:12px;line-height:1.5}
+:root :is(.bg-layer,.arrival-painting,.arrival-painting img,.courtyard-paint,.courtyard-paint img){max-width:none;max-height:none;object-fit:cover}
+:root :is(.estate-map,.courtyard:not(.notion-room),.tea-room,.front-door){max-width:none;max-height:none}
+:root .bg-layer{width:100vw;height:100dvh;inset:0;border-radius:0}
+@media(min-width:1800px){:root .estate-map .map-tools{font-size:15px}:root .estate-map .map-pin-name{font-size:13px;line-height:1.5}}
+@media(max-width:640px){:root .estate-map .map-picture{mask-image:none;-webkit-mask-image:none}}
+:root .estate-map .map-world{background-image:none!important}
+@media(min-width:961px){:root .estate-map .map-tools{left:18px!important;right:auto!important}}
+
+:root .estate-map{border-radius:0!important;outline:none!important}
+
+
+@media(max-width:640px){:root .estate-map .map-tools{gap:6px;padding:8px;left:12px;right:12px;max-width:none}:root .estate-map .map-tools :is(button,summary){padding-inline:12px}}
+@media(max-width:640px){:root .estate-map .map-room-list{top:auto!important;bottom:calc(14px + env(safe-area-inset-bottom,0px))!important;max-height:34dvh;overflow:auto}}

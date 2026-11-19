@@ -148,7 +148,33 @@
 .brand,.page-footer,.workspace-atmosphere{transform:translateZ(0);backface-visibility:hidden}
 
 /* App accessibility preferences cross the shadow boundary explicitly. */
-:host([data-solid]) .scene-panel,:host([data-contrast]) .scene-panel{background:#24292f!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-:host([data-contrast]) .scene-panel{border:2px solid #dce5ef;color:#fff;--muted:#f0f2f5}
 @media(max-width:760px){.site-header .brand{gap:12px}.scene-panel{padding-bottom:24px}}
 @media(max-height:500px){.site-header{height:54px}.brand small,.workspace-atmosphere{display:none}.site-header .crest{font-size:30px}.page-footer>a,.page-footer>span{display:none}.page-footer{justify-content:center}}
+
+/* Shadow-root adapter. Inherited material tokens are the only theme state. */
+:host { color-scheme:var(--estate-scheme); --muted:var(--mat-ink-2); --line:var(--mat-rim); }
+.scene-panel {
+  color:var(--mat-ink); background:var(--mat-thick)!important;
+  border-color:var(--mat-rim); box-shadow:var(--mat-edge);
+  backdrop-filter:var(--mat-blur-thick)!important;
+  -webkit-backdrop-filter:var(--mat-blur-thick)!important;
+}
+.scene-panel :is(button,input,select,textarea) { color:var(--mat-ink); accent-color:var(--mat-accent); }
+.scene-panel :is(.settings-description,.settings-eyebrow,.settings-close,.behaviour-label,.variation-label,.scene-hint,.classic-notice,.setting-row small,#scene-status,#mood-status,#weather-location>a) { color:var(--mat-ink-2); }
+.scene-panel :is(input,select) { background-color:var(--mat-control); border-color:var(--mat-rim); }
+.scene-panel select { background-image:var(--estate-arrow); }
+.scene-panel option { background:var(--mat-opaque); color:var(--mat-ink); }
+.scene-panel :is(.settings-tabs,.current-scene) { background:var(--mat-group); color:var(--mat-ink-2); }
+.scene-panel :is(.setting-row,.keep-scene,.variations button) { border-color:var(--mat-rim); }
+.scene-panel :is(.settings-tabs [aria-selected=true],.variations [aria-pressed=true],.scene-tile[aria-pressed=true],.gallery-filters [aria-pressed=true]) { background:var(--mat-control-selected); color:var(--mat-ink); border-color:var(--mat-accent); box-shadow:inset 0 0 0 1px var(--mat-rim); }
+.scene-panel .scene-tile[aria-pressed=true]>span:last-child:after { color:var(--mat-accent-ink); }
+.scene-panel #city-form button { background:var(--mat-control-hover); }
+.scene-panel .motion-toggle { background:var(--mat-control-selected); border:1px solid var(--mat-rim); }
+.scene-panel .motion-toggle:before { background:var(--mat-ink); }
+.scene-panel .motion-toggle[aria-checked=true] { background:var(--mat-accent); }
+.scene-panel .motion-toggle[aria-checked=true]:before { background:var(--mat-on-accent); }
+.scene-panel :is(button,select,input):focus-visible { outline:2px solid var(--mat-accent); outline-offset:3px; }
+/* Scenery captions use a separate contrast treatment, not panel ink. */
+.brand,.page-footer,.workspace-atmosphere { color:#f7fafc; text-shadow:0 1px 4px #000,0 2px 12px #0008; }
+.page-footer a,.workspace-atmosphere small { color:inherit; }
+@media (forced-colors:active) { .scene-panel select { appearance:auto; background-image:none; } }

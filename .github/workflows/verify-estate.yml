@@ -1,0 +1,25 @@
+name: Verify Estate
+on:
+  push:
+    paths: ['maintenance/**', 'assets/**', 'living-workspace/**', 'index.html', 'sw.js', 'qa/**', '.github/workflows/verify-estate.yml']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check release and regressions
+        run: python3 maintenance/verify.py
+      - name: Check reproducible web output
+        run: |
+          python3 maintenance/integration/build.py --web-only
+          git diff --exit-code -- assets living-workspace index.html sw.js

@@ -1,0 +1,52 @@
+"""Behaviour checks for release boundaries, without a browser or private data."""
+
+from pathlib import Path
+import sys, tempfile, json, subprocess
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "integration"))
+from buildlib.room_patches import patch_windchime
+from buildlib.cache import stamp_cache
+
+original = (
+    "show=()=>{focus.current=`reveal`,enterEstateView?enterEstateView():setHidden(!0)}"
+)
+patched = patch_windchime(original)
+assert patch_windchime(patched) == patched
+subprocess.run(
+    [
+        "node",
+        "-e",
+        "let calls=0,hidden=false,focus={};let enterEstateView=()=>{calls++},setHidden=x=>hidden=x,show;"
+        + patched
+        + ';show();if(calls!==0||!hidden||focus.current!=="reveal")process.exit(1)',
+    ],
+    check=True,
+)
+for source in ["", original + ";" + original]:
+    try:
+        patch_windchime(source)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Unknown/ambiguous release must fail closed")
+with tempfile.TemporaryDirectory() as tmp:
+    out = Path(tmp)
+    dest = out / "living-workspace"
+    dest.mkdir()
+    (out / "snapshot").mkdir()
+    (out / "index.html").write_text("app")
+    (dest / "workspace.css").write_text("body{}")
+    (out / "snapshot/status.json").write_text("{}")
+    (out / "sw.js").write_text(
+        'const CACHE = "old"\nconst SHELL = ["./"]\nconst PRECACHE = [{"url":"./","hash":"old"},{"url":"./snapshot/status.json","hash":"old"}]\nconst CRITICAL = new Set(["./"])\n'
+    )
+    first = stamp_cache(out, dest)
+    a = (out / "sw.js").read_bytes()
+    assert stamp_cache(out, dest) == first and (out / "sw.js").read_bytes() == a
+    (out / "snapshot/status.json").write_text('{"asOf":"later"}')
+    assert stamp_cache(out, dest) == first
+    (dest / "workspace.css").write_text("body{color:red}")
+    assert stamp_cache(out, dest)["cache_revision"] != first["cache_revision"]
+print(
+    "PASS: hide never enters Estate view; patch idempotent; unknown release fails closed; cache deterministic; dynamic snapshots independent; CSS change revises cache."
+)

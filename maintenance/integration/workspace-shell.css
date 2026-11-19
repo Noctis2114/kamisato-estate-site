@@ -1,0 +1,24 @@
+:host{display:contents!important;pointer-events:none;visibility:visible!important}
+:host([hidden]){display:none!important}
+.workspace-shell{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;font-size:15px;color:#f4f8fa;background:transparent;min-height:0;pointer-events:none}
+.rain-scene{z-index:39;pointer-events:none}
+.site-header{position:fixed;inset:0 0 auto;height:100px;z-index:43;pointer-events:none}
+.site-header .brand{pointer-events:none}.site-header .scene-picker{pointer-events:auto}
+.workspace-atmosphere{position:fixed;z-index:42;top:28px;right:5%;pointer-events:none}
+.scene-picker,.scene-panel{z-index:220!important;pointer-events:auto}
+.page-footer{position:fixed;bottom:18px;left:4%;right:4%;z-index:42;pointer-events:none;margin:0;padding:0;width:auto}
+.page-footer a,.page-footer button{pointer-events:auto}
+#restore-ui{position:fixed;z-index:230;bottom:24px;left:50%;transform:translateX(-50%);pointer-events:auto}
+.workspace-shell[data-mode=classic] :is(.rain-scene,.brand,.workspace-atmosphere,.page-footer){display:none}
+.workspace-shell[data-mode=classic] .site-header{height:0}
+@media(max-width:760px){.site-header{height:72px;padding-inline:20px}.workspace-atmosphere{display:none}.brand{font-size:16px}.crest{font-size:30px}.page-footer{bottom:12px;font-size:10px}.page-footer>span{display:none}}
+
+.scene-panel{isolation:isolate;transform:translateZ(0);backface-visibility:hidden}
+.workspace-shell:has(.scene-picker[open]) .workspace-atmosphere{visibility:hidden}
+
+.rain-scene{contain:strict;transform:translateZ(0);backface-visibility:hidden}
+.brand,.page-footer,.workspace-atmosphere{transform:translateZ(0);backface-visibility:hidden}
+
+/* App accessibility preferences cross the shadow boundary explicitly. */
+@media(max-width:760px){.site-header .brand{gap:12px}.scene-panel{padding-bottom:24px}}
+@media(max-height:500px){.site-header{height:54px}.brand small,.workspace-atmosphere{display:none}.site-header .crest{font-size:30px}.page-footer>a,.page-footer>span{display:none}.page-footer{justify-content:center}}

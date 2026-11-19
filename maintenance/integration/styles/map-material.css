@@ -1,0 +1,9 @@
+/* Shared neutral glass for map chrome; opaque surfaces only when explicitly requested. */
+:root .estate-map :is(.map-tools,.map-hint,.map-pin-name,.map-room-list,.map-secondary-menu,.map-card){background:var(--mat-chrome)!important;color:var(--mat-ink)!important;border:1px solid var(--mat-rim)!important;box-shadow:var(--mat-edge)!important;backdrop-filter:var(--mat-blur-chrome)!important;-webkit-backdrop-filter:var(--mat-blur-chrome)!important;text-shadow:var(--mat-text-shadow)}
+:root .estate-map .map-tools :is(button,summary){background:var(--mat-control)!important;color:inherit!important;border:1px solid var(--mat-rim)!important;min-height:44px;padding-inline:16px}
+:root .estate-map .map-tools button:hover{background:var(--mat-control-hover)!important}
+:root .estate-map .map-pin-name{padding:9px 14px!important;line-height:1.4}
+:root:is([data-reduce-transparency],[data-increase-contrast]) .estate-map :is(.map-tools,.map-hint,.map-pin-name,.map-room-list,.map-secondary-menu,.map-card){background:var(--mat-opaque)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+
+:root .estate-map .map-room-list button{background:var(--mat-control)!important;color:var(--mat-ink)!important;border:1px solid var(--mat-rim)!important;text-shadow:var(--mat-text-shadow)}
+:root .estate-map .map-tools :is(button,summary){color:var(--mat-ink)!important;text-shadow:var(--mat-text-shadow)}

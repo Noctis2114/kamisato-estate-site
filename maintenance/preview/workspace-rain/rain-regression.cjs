@@ -1,0 +1,12 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const context2d=new Proxy({}, {get:(t,k)=>t[k]||(()=>{}),set:(t,k,v)=>(t[k]=v,true)});
+const math=Object.create(Math);math.random=()=>.99;
+const sandbox={Math:math,document:{createElement:()=>({getContext:()=>context2d})}};
+vm.runInNewContext(fs.readFileSync(__dirname+'/raindrops-sim.js','utf8'),sandbox);
+const make=()=>new sandbox.EstateRaindrops(1200,800,1,{}, {},{raining:false,autoShrink:false,minR:5,maxR:17,globalTimeScale:1});
+const sim=make(),pinned=sim.createDrop({x:50,y:50,r:8,momentum:0}),slow=sim.createDrop({x:300,y:50,r:9,momentum:3}),fast=sim.createDrop({x:700,y:50,r:13,momentum:8});sim.drops=[pinned,slow,fast];
+for(let i=0;i<30;i++)sim.update(1);
+assert.equal(pinned.x,50);assert.equal(pinned.y,50);assert.ok(slow.y>50);assert.ok(fast.y>slow.y+40);assert.equal(slow.x,300);
+const merge=make(),big=merge.createDrop({x:100,y:100,r:15,momentum:1}),small=merge.createDrop({x:103,y:103,r:8,momentum:0});merge.drops=[big,small];merge.update(1);assert.equal(small.killed,true);assert.ok(big.r>15&&big.r<=17);assert.equal(merge.drops.length,1);
+const source=fs.readFileSync(__dirname+'/rain-live.js','utf8');const shader=source.split('const fragment=`')[1].split('`;')[0];assert.ok(!/\btime\b|\bflow\b|fract\(/.test(shader));assert.ok(shader.includes('texture2D(scenery,p)'));
+console.log('PASS: pinned bead stays fixed; drops descend at independent speeds; collision merges mass; radius stays bounded; scenery sampling is time-independent.');

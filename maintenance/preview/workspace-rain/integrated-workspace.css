@@ -1,0 +1,150 @@
+/* Preview-only skin for the unchanged Estate workspace application. */
+html[data-workspace-glass]:has(.notion-room),html[data-workspace-glass]:has(.notion-room) body,html[data-workspace-glass]:has(.notion-room) body :has(.notion-room){background:transparent!important;backdrop-filter:none!important}
+html[data-workspace-glass]:has(.notion-room) body{visibility:hidden}
+html[data-workspace-glass] :is(.notion-room,.notion-room *,dialog,dialog *,.n-pop,.n-pop *,.n-panel,.n-panel *,.n-palette,.n-palette *,[role=menu],[role=menu] *,[role=listbox],[role=listbox] *){visibility:visible}
+html[data-workspace-glass] .notion-room{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;inset:0!important}
+html[data-workspace-glass] .notion-room>.courtyard-title{display:none}
+html[data-workspace-glass] .notion-room>.courtyard-actions{top:4px!important;right:4px!important;background:transparent!important;backdrop-filter:none!important;box-shadow:none!important;border:0!important;gap:12px}
+html[data-workspace-glass] .notion-room>.courtyard-actions button{color:#eff6fa!important;padding:8px 12px!important;min-height:40px;min-width:40px}
+html[data-workspace-glass] .notion-room-body{inset:56px 0 0!important;background:transparent!important;border:0!important;border-radius:0!important;gap:20px!important}
+/* Each saved Classic palette is a separate inheritance boundary. Glass must
+   own these tokens on every boundary, not just on the outer workspace. */
+html[data-workspace-glass],
+html[data-workspace-glass] :is(body,.notion-room,.notion-room-body,.n-hq,.n-study-home,[data-workspace-palette],.n-hq-dialog,.n-hq-tools,.n-panel,.n-pop,.n-palette){
+  --n-hq-canvas:transparent!important;
+  --n-hq-sidebar:var(--mat-group)!important;
+  --n-hq-surface:var(--mat-control)!important;
+  --n-hq-soft:var(--mat-control-hover)!important;
+  --n-hq-ink:var(--mat-ink)!important;
+  --n-hq-muted:var(--mat-ink-2)!important;
+  --n-hq-line:var(--mat-rim)!important;
+  --n-hq-accent:var(--mat-accent)!important;
+  --n-hq-gold:var(--mat-accent)!important;
+  --workspace-on-accent:var(--mat-on-accent)!important;
+  --n-room-bg:transparent!important;
+  --n-side-fill:var(--mat-group)!important;
+  --n-page-fill:var(--mat-group)!important;
+  --n-panel-fill:var(--mat-thick)!important;
+  --n-pop-fill:var(--mat-thick)!important;
+  --n-card-fill:var(--mat-control)!important;
+  --n-ink:var(--mat-ink)!important;
+  --n-ink-soft:var(--mat-ink-2)!important;
+  --n-ink-faint:var(--mat-ink-2)!important;
+  --n-quiet:var(--mat-ink-2)!important;
+  --n-pane:var(--mat-control)!important;
+  --n-pane-hi:var(--mat-control-hover)!important;
+  --n-hot:var(--mat-control)!important;
+  --n-hot-strong:var(--mat-rim)!important;
+  --n-gold:var(--mat-accent)!important;
+  color:var(--mat-ink);color-scheme:var(--estate-scheme);
+}
+html[data-workspace-glass] :is(.n-home,.n-home-in,.n-hq){background:transparent!important}
+html[data-workspace-glass] .n-hq{grid-template-columns:220px minmax(0,1fr);gap:20px;min-height:100%;padding:0;font-size:14px}
+html[data-workspace-glass] :is(.n-hq-sidebar,.n-hq-main,.notion-room-page,.n-workspace-rail){background:var(--mat-regular)!important;border:1px solid var(--mat-rim)!important;border-radius:23px!important;box-shadow:var(--mat-edge)!important;backdrop-filter:var(--mat-blur-regular);-webkit-backdrop-filter:var(--mat-blur-regular)}
+html[data-workspace-glass] .n-hq-sidebar{padding:25px 16px;gap:30px;min-height:0}
+html[data-workspace-glass] .n-hq-brand{padding:0 6px;gap:13px}html[data-workspace-glass] .n-hq-brand>span{flex-shrink:0}
+html[data-workspace-glass] .n-hq-brand>span{display:grid;place-items:center;width:32px;font-size:28px}
+html[data-workspace-glass] .n-hq-brand strong{font-size:21px}html[data-workspace-glass] .n-hq-brand small{font-size:10px;letter-spacing:1.5px}
+html[data-workspace-glass] .n-hq-sidebar nav button{padding:11px 12px;gap:12px;font-size:13px}
+html[data-workspace-glass] .n-hq-sidebar nav button>span{display:inline-flex;align-items:center;justify-content:center;flex:0 0 20px;line-height:1}
+html[data-workspace-glass] .n-hq-sidebar-bottom button{font-size:12px;padding:10px 8px}
+html[data-workspace-glass] .n-hq-main{padding:30px 32px 40px}
+html[data-workspace-glass] .n-hq-topbar{gap:20px;padding-bottom:20px;min-height:74px}
+html[data-workspace-glass] .n-hq h1{font-size:34px;font-weight:400}html[data-workspace-glass] .n-hq h2{font-size:19px;font-weight:500}
+html[data-workspace-glass] :is(.n-hq-card,.n-hq-next,.n-hq-calendar-scroll,.n-hq-project){background:var(--mat-group)!important;border:1px solid var(--mat-rim);box-shadow:none!important;border-radius:17px!important}
+html[data-workspace-glass] .n-hq .n-hq-primary{background:var(--mat-accent)!important;color:var(--mat-on-accent)!important}
+html[data-workspace-glass] .n-hq button{line-height:1.45}html[data-workspace-glass] .n-hq-actions{gap:10px}
+html[data-workspace-glass] :is(.n-hq-search,.notion-room-tool){display:inline-flex;justify-content:center;align-items:center;gap:10px}
+html[data-workspace-glass] .n-hq-form select{appearance:none;background-image:var(--estate-arrow);background-repeat:no-repeat;background-size:16px;background-position:right 14px center;padding-right:42px}
+html[data-workspace-glass] :is(.n-hq-dialog,.n-pop,.n-panel,.n-palette,.notion-menu,.notion-pop){background:var(--mat-thick)!important;backdrop-filter:var(--mat-blur-thick);border:1px solid var(--mat-rim)!important;color:var(--mat-ink)!important}
+html[data-workspace-glass] .n-hq-dialog{--n-hq-canvas:var(--mat-opaque);--n-hq-surface:var(--mat-control);--n-hq-ink:var(--mat-ink);--n-hq-muted:var(--mat-ink-2);--n-hq-line:var(--mat-rim)}
+html[data-workspace-glass] .n-hq-dialog button{min-height:40px;line-height:1.5;padding:8px 12px}
+html[data-workspace-glass] .n-hq-dialog input,html[data-workspace-glass] .n-hq-dialog select{min-height:44px;padding-inline:14px}
+@media(max-width:1100px){html[data-workspace-glass] .n-hq{grid-template-columns:185px minmax(0,1fr);gap:14px}html[data-workspace-glass] .n-hq-main{padding:24px}html[data-workspace-glass] .n-hq-brand{flex-wrap:wrap}html[data-workspace-glass] .n-hq-today-grid{grid-template-columns:1fr}}
+@media(max-width:760px){html[data-workspace-glass] .n-hq{grid-template-columns:minmax(0,1fr);gap:14px}html[data-workspace-glass] .n-hq-sidebar{gap:14px;padding:16px}html[data-workspace-glass] .n-hq-brand{flex-wrap:nowrap}html[data-workspace-glass] .n-hq-sidebar nav{display:flex;overflow-x:auto;gap:6px;padding:2px}html[data-workspace-glass] .n-hq-sidebar nav button{flex:0 0 auto;gap:8px;padding:10px 12px;white-space:nowrap}html[data-workspace-glass] .n-hq-main{padding:20px 16px}html[data-workspace-glass] .notion-room-body{inset:52px 0 0!important}html[data-workspace-glass] .n-hq-topbar{display:block}html[data-workspace-glass] .n-hq-topbar>.n-hq-actions{margin-top:16px}html[data-workspace-glass] .n-hq-sidebar nav button>span{display:inline-flex!important}html[data-workspace-glass] .n-hq[data-hq-view=calendar] .n-hq-search-label{display:none}}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){html[data-workspace-glass] :is(.n-hq-sidebar,.n-hq-main,.notion-room-page,.n-workspace-rail){background:var(--mat-opaque)!important;backdrop-filter:none}}
+
+html[data-workspace-glass] .n-hq-sidebar{position:sticky;top:0;align-self:start;height:calc(100dvh - 56px);box-sizing:border-box;overflow-y:auto;scrollbar-width:thin}
+@media(max-width:760px){html[data-workspace-glass] .n-hq-sidebar{position:relative;height:auto;overflow:visible}html[data-workspace-glass] .n-hq-mobile-more{display:inline-flex;align-items:center;justify-content:center;min-height:40px}}
+/* Shared controls and floating tools keep the same material and arrow gutter. */
+html[data-workspace-glass]:has(.notion-room) body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--n-panel-fill:var(--mat-thick);--n-pop-fill:var(--mat-thick);--n-ink:var(--mat-ink);--n-ink-soft:var(--mat-ink-2)}
+html[data-workspace-glass] :is(.notion-room,dialog,.n-pop,.n-panel,.n-palette) select:not([multiple]):not([size]){appearance:none;-webkit-appearance:none;background-image:var(--estate-arrow);background-repeat:no-repeat;background-size:16px 16px;background-position:right 14px center;padding-right:42px!important;min-height:40px;line-height:20px}
+html[data-workspace-glass] :is(.n-hq-dialog,.n-hq-tools,.n-pop,.n-panel,.n-palette,.notion-menu,.notion-pop,[role=dialog]:not(.notion-room):not(.courtyard)){background:var(--mat-thick)!important;backdrop-filter:var(--mat-blur-thick);-webkit-backdrop-filter:var(--mat-blur-thick);border:1px solid var(--mat-rim)!important;color:var(--mat-ink)!important;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+html[data-workspace-glass] :is(.n-hq-tools,.n-palette) button{background-color:var(--mat-control)!important}
+
+/* Glass controls use their own material; Classic colours never show through. */
+html[data-workspace-glass] :is(.n-hq-button,.money-more>summary,.money-period>summary){
+  background:var(--mat-control)!important;
+  border:1px solid var(--mat-rim)!important;
+  box-shadow:inset 0 1px var(--mat-control)!important;
+  border-radius:12px!important;
+  min-height:44px;padding:10px 16px;box-sizing:border-box;
+}
+html[data-workspace-glass] :is(.n-hq-button,.money-more>summary,.money-period>summary):hover{background:var(--mat-control-hover)!important}
+html[data-workspace-glass] .n-hq-sidebar nav button[aria-current=page]{background:var(--mat-control-selected)!important;box-shadow:inset 2px 0 var(--mat-accent)!important}
+html[data-workspace-glass] .n-hq-brand>span{color:var(--mat-accent)!important}
+html[data-workspace-glass] :is(.n-hq-form,.money,.money-dialog,.n-workspace-record-panel) :is(input:not([type=checkbox]):not([type=radio]),select,textarea){background-color:var(--mat-control)!important;border-color:var(--mat-rim)!important;color:var(--mat-ink)!important}
+html[data-workspace-glass] select option{background:var(--mat-opaque);color:var(--mat-ink)}
+html[data-workspace-glass] :is(.n-hq-dialog,.money-dialog)::backdrop{background:var(--mat-scrim)}
+html[data-workspace-glass] :is(.money-more-items,.n-hq-menu,.n-workspace-record-panel){background:var(--mat-thick)!important;backdrop-filter:var(--mat-blur-thick);-webkit-backdrop-filter:var(--mat-blur-thick);border:1px solid var(--mat-rim)!important}
+/* Consistent vertical rhythm, including the original zero-padding Money card. */
+html[data-workspace-glass] .n-hq-main>.money{margin-top:24px;gap:24px}
+html[data-workspace-glass] .money-main-toolbar{gap:16px;align-items:center}
+html[data-workspace-glass] .money-tabs{gap:8px;padding-bottom:12px}
+html[data-workspace-glass] .money-tabs button{padding:10px 18px;min-height:44px}
+html[data-workspace-glass] .money>.n-hq-card{padding:26px 28px!important}
+html[data-workspace-glass] .money>.n-hq-card h2{margin:0 0 10px;line-height:1.4}
+html[data-workspace-glass] .money>.n-hq-card>p{margin:0 0 22px;max-width:68ch;line-height:1.65;color:var(--n-hq-muted)}
+html[data-workspace-glass] .n-hq-card>.n-hq-primary{min-height:44px;padding:10px 18px}
+@media(max-width:760px){html[data-workspace-glass] .n-hq-main{padding:22px 18px}html[data-workspace-glass] .money>.n-hq-card{padding:22px 18px!important}html[data-workspace-glass] .money-tabs button{padding:10px 8px}html[data-workspace-glass] .n-hq-main>.money{margin-top:20px;gap:20px}}
+@media(prefers-reduced-transparency:reduce),(prefers-contrast:more){html[data-workspace-glass] :is(.n-hq-sidebar,.n-hq-main,.notion-room-page,.n-workspace-rail,.n-hq-dialog,.n-hq-tools,.n-pop,.n-panel,.n-palette,.money-more-items,.n-workspace-record-panel){background:var(--mat-opaque)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
+/* Dialogs share the workspace alignment instead of inheriting Classic's reset. */
+html[data-workspace-glass] .n-hq-dialog{position:fixed!important;inset:0!important;margin:auto!important;width:min(560px,calc(100% - 40px));height:fit-content;max-height:calc(100dvh - 40px);padding:28px;box-sizing:border-box}
+html[data-workspace-glass] .n-hq-dialog::backdrop{background:transparent}
+html[data-workspace-glass] .n-hq-dialog>header{align-items:center;gap:20px}
+html[data-workspace-glass] .n-hq-dialog .n-hq-form{gap:22px}
+
+/* Money's original compact header must not compress the Glass layout. */
+html[data-workspace-glass] .n-hq .n-hq-main{padding:34px 36px 40px}
+html[data-workspace-glass] .n-hq .n-hq-topbar{min-height:88px;padding-bottom:26px;gap:24px;align-items:center;flex-wrap:wrap}
+html[data-workspace-glass] .n-hq .n-hq-topbar>.n-hq-actions{gap:12px;margin-top:0}
+html[data-workspace-glass] .n-hq .n-hq-search{min-height:44px;padding:11px 18px;gap:12px}
+@media(max-width:1100px){html[data-workspace-glass] .n-hq .n-hq-main{padding:28px 28px 36px}}
+@media(max-width:760px){html[data-workspace-glass] .n-hq .n-hq-main{padding:26px 20px 32px}html[data-workspace-glass] .n-hq .n-hq-topbar{padding-bottom:22px;min-height:0;gap:18px}html[data-workspace-glass] .n-hq .n-hq-topbar>.n-hq-actions{margin-top:16px;gap:10px}html[data-workspace-glass] .n-hq .n-hq-search{padding:10px 14px}html[data-workspace-glass] .n-hq[data-hq-view=calendar] .n-hq-search{width:44px;padding:10px}}
+/* Restore a steady rhythm after headings, including compact Money/Calendar. */
+html[data-workspace-glass] .n-hq .n-hq-scope-bar{padding:20px 0;gap:16px}
+html[data-workspace-glass] .n-hq .n-hq-content{gap:24px}
+html[data-workspace-glass] .n-hq .money{gap:24px}
+html[data-workspace-glass] .n-hq .n-hq-view-heading{gap:18px}
+@media(max-width:760px){html[data-workspace-glass] .n-hq .n-hq-scope-bar{padding:18px 0;gap:12px}html[data-workspace-glass] .n-hq .money{gap:20px}}
+
+/* Search is part of the same workspace, including its typography and spacing. */
+html[data-workspace-glass] .n-veil.is-deep{background:transparent!important}
+html[data-workspace-glass] .n-palette{font-family:Inter,ui-sans-serif,system-ui,sans-serif!important;--estate-hand:Inter,ui-sans-serif,system-ui,sans-serif;padding:24px;top:50%;transform:translateY(-50%);max-height:calc(100dvh - 48px);overflow:auto;border-color:var(--mat-rim)!important}
+html[data-workspace-glass] .n-palette :is(button,input){font-family:inherit!important}
+html[data-workspace-glass] .n-palette-top{gap:14px;padding:0 0 20px}
+html[data-workspace-glass] .n-palette-top .n-side-icon{width:36px;height:36px;flex:0 0 36px}
+html[data-workspace-glass] .n-palette-field{min-height:44px;padding:10px 14px}
+html[data-workspace-glass] .n-palette .n-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0}
+html[data-workspace-glass] .n-palette .n-tab{min-height:36px;padding:8px 12px;font-size:12px;line-height:20px}
+html[data-workspace-glass] .n-palette .n-filter-name{flex-basis:100%;margin:6px 0;font-size:10px;letter-spacing:.08em}
+html[data-workspace-glass] .n-palette .n-section-name{font-size:10px;letter-spacing:.08em;margin:14px 0 8px}
+html[data-workspace-glass] .n-palette .n-hit{min-height:44px;padding:12px;gap:12px}
+html[data-workspace-glass] .n-palette-foot{font-size:11px;line-height:1.65;margin:14px 0 0}
+
+html[data-workspace-glass] .n-hq-dialog:has(.n-hq-menu){width:min(760px,calc(100% - 40px))}
+html[data-workspace-glass] .n-hq-dialog .n-hq-menu{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;border:0;background:transparent;padding:0}
+html[data-workspace-glass] .n-hq-menu>button{grid-column:1/-1}
+html[data-workspace-glass] .n-hq-menu>section{display:grid;gap:8px;align-content:start;min-width:0}
+html[data-workspace-glass] .n-hq-menu>section:first-of-type{grid-row:span 2;grid-template-columns:1fr 1fr}
+html[data-workspace-glass] .n-hq-menu>section:first-of-type>:is(h3,p){grid-column:1/-1}
+html[data-workspace-glass] .n-hq-menu h3{margin:0 0 8px}
+html[data-workspace-glass] .n-hq-menu p{margin:0 0 12px;line-height:1.65}
+html[data-workspace-glass] .n-hq-menu button{min-height:44px;padding:10px 12px;text-align:left;border-radius:10px;background:var(--mat-control);line-height:1.5}
+@media(max-width:650px){html[data-workspace-glass] .n-hq-dialog .n-hq-menu{grid-template-columns:1fr}html[data-workspace-glass] .n-hq-menu>section:first-of-type{grid-row:auto}}
+
+html[data-workspace-glass] .n-hq-dialog .n-hq-menu{border:0!important;background:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none}
+html[data-workspace-glass] .n-hq-menu>section{margin:0;padding:0}
+html[data-workspace-glass] .n-hq .n-hq-search .n-hq-search-label{font-size:13px}
+html[data-workspace-glass] .n-hq .n-hq-search>span:first-child{font-size:16px}
+@media(max-width:760px){html[data-workspace-glass] .n-hq:has(.money) .n-hq-topbar{display:block}html[data-workspace-glass] .n-hq:has(.money) .n-hq-search{font-size:13px}}
