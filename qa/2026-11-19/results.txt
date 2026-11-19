@@ -25,3 +25,4 @@ PASS failed city search releases refresh and can be retried
 PASS manual scene cancels lookup without leaving a stuck search message
 PASS equator, prime meridian, and boundary coordinates remain valid
 PASS 324 map viewport/aspect/zoom/pan combinations from phone to 100000px; cover bounds and minimum pinch scale preserved.
+PASS 1055 immutable shell hashes match; 6 independently updated snapshots remain unpinned.
